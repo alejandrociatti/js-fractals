@@ -28,9 +28,9 @@ else
       blue = utils.randomInt 0, 255
       window.setTimeout(drawer1, 5000)
     else window.setTimeout(drawer2, 5000)
-  window.setTimeout drawer1, 5000
+  #window.setTimeout drawer1, 5000
   # JULIA
   # =====
-  julia = new Julia('fractal', 1080, 720, 1000, 4)
+  julia = new Julia('fractal', 1080, 720)
   julia.draw()
   window.setInterval (-> julia.draw(new Complex(utils.randomNumber(), utils.randomNumber()))), 5000
