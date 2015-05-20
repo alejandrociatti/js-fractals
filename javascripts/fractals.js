@@ -43,18 +43,20 @@ canvases = [document.getElementById('fractal1'), document.getElementById('fracta
 
 for (i = 0, len = canvases.length; i < len; i++) {
   canvas = canvases[i];
+  canvas.setAttribute('width', width / 4);
+  canvas.setAttribute('height', height / 4);
   canvas.style.visibility = 'hidden';
-  canvas.setAttribute('width', width);
-  canvas.setAttribute('height', height);
+  canvas.style.width = width;
+  canvas.style.height = height;
 }
 
 context = canvas.getContext('2d');
 
-rScale = d3.scale.linear().range([0, width]).domain([-1.7, 1.7]);
+rScale = d3.scale.linear().range([0, width / 4]).domain([-1.7, 1.7]);
 
-iScale = d3.scale.linear().range([0, height]).domain([-1, 1]);
+iScale = d3.scale.linear().range([0, height / 4]).domain([-1, 1]);
 
-window.julia = new Julia(canvases, width, height);
+window.julia = new Julia(canvases, width / 4, height / 4);
 
 renderer = function() {
   if (julia.done) {

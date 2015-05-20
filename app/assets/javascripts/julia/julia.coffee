@@ -21,23 +21,6 @@ class Julia
      "purple", "#027", "#260", "orange", "yellow", "blue"]
   ).interpolate(d3.interpolateHcl)
 
-  boxes: ->
-    return false if @resolution <= 3
-    span = @max.subtract(@min)
-    while @x < @width
-      @x += @resolution
-      while @y < @height
-        @y += @resolution
-        fx = (@x + @resolution/2) / @width
-        fy = (@y + @resolution/2) / @height
-        n = new Complex(fx*span.real+@min.real, fy*span.imaginary+@min.imaginary)
-        @context.fillStyle = @getColor @iterate n # iterate N, get color for its iterations, assign color to fillStyle
-        @context.fillRect(@x, @y, @resolution, @resolution)
-    @resolution -= 3
-    @x = 0
-    @y = 0
-    return true
-
   iterate: (nextN) ->
     iterations = 0
     loop
@@ -48,7 +31,7 @@ class Julia
     return iterations
 
   render: ->
-    return if @done || @boxes()
+    return if @done
     span = @max.subtract(@min)
     ll = @x + 6
     while @x < ll

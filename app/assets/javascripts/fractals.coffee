@@ -33,13 +33,15 @@ width = Math.max(document.body.clientWidth, window.innerWidth || 0)
 height = Math.max(document.documentElement.clientHeight, window.innerHeight || 0)
 canvases = [document.getElementById('fractal1'), document.getElementById('fractal2')]
 for canvas in canvases
+  canvas.setAttribute('width', width/4)
+  canvas.setAttribute('height', height/4)
   canvas.style.visibility = 'hidden'
-  canvas.setAttribute('width', width)
-  canvas.setAttribute('height', height)
+  canvas.style.width = width
+  canvas.style.height = height
 context = canvas.getContext('2d')
-rScale = d3.scale.linear().range([0, width]).domain([-1.7,1.7])
-iScale = d3.scale.linear().range([0, height]).domain([-1,1])
-window.julia = new Julia(canvases, width, height)
+rScale = d3.scale.linear().range([0, width/4]).domain([-1.7,1.7])
+iScale = d3.scale.linear().range([0, height/4]).domain([-1,1])
+window.julia = new Julia(canvases, width/4, height/4)
 
 renderer = ->
   if julia.done then julia.step() else julia.render()
