@@ -15,16 +15,6 @@ Utils = (function() {
     }
   };
 
-  Utils.prototype.randomColor = function() {
-    var color, i, j, letters;
-    letters = '0123456789ABCDEF'.split('');
-    color = '#';
-    for (i = j = 0; j <= 6; i = ++j) {
-      color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
-  };
-
   return Utils;
 
 })();
