@@ -7,8 +7,8 @@ class Complex
     new Complex(real, imaginary)
 
   subtract: (complexN) ->
-    real = @real = complexN.real
-    imaginary = @imaginary = complexN.imaginary
+    real = @real - complexN.real
+    imaginary = @imaginary - complexN.imaginary
     new Complex(real, imaginary)
 
   multiply: (complexN) ->
@@ -17,6 +17,11 @@ class Complex
     new Complex(real, imaginary)
 
   square: -> @.multiply(@)
+
+  iterate: (c) ->
+    real = @real * @real - @imaginary * @imaginary + c.real
+    imaginary = 2 * @imaginary  * @real + c.imaginary
+    new Complex(real, imaginary)
 
   modulus: -> Math.sqrt((@real*@real)+(@imaginary*@imaginary))
 

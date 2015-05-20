@@ -4,4 +4,8 @@ class Utils
 
 window.utils = new Utils()
 
+# contains fn addition
+_contains = (container, something) -> container.indexOf(something) isnt -1
+Array::contains = (element) -> _contains(@, element)
+String::contains = (element) -> _contains(@, element)
 

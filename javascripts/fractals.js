@@ -1,70 +1,67 @@
-(function() {
-  var Utils;
+var Utils, _contains;
 
-  Utils = (function() {
-    function Utils() {}
+Utils = (function() {
+  function Utils() {}
 
-    Utils.prototype.randomInt = function(min, max) {
-      return Math.floor(Math.random() * (max - min + 1)) + min;
-    };
+  Utils.prototype.randomInt = function(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  };
 
-    Utils.prototype.randomNumber = function() {
-      if (Math.random() > 0.5) {
-        return -Math.random();
-      } else {
-        return Math.random();
-      }
-    };
+  Utils.prototype.randomNumber = function() {
+    if (Math.random() > 0.5) {
+      return -Math.random();
+    } else {
+      return Math.random();
+    }
+  };
 
-    return Utils;
+  return Utils;
 
-  })();
+})();
 
-  window.utils = new Utils();
+window.utils = new Utils();
 
-}).call(this);
+_contains = function(container, something) {
+  return container.indexOf(something) !== -1;
+};
 
-(function() {
-  var blue, drawer1, drawer2, generator, green, julia, red, roughness;
+Array.prototype.contains = function(element) {
+  return _contains(this, element);
+};
 
-  if (document.createElement('canvas').getContext === void 0) {
-    alert('Sorry, your browser lacks canvas support.');
+String.prototype.contains = function(element) {
+  return _contains(this, element);
+};
+
+var canvas, canvases, context, height, i, iScale, len, rScale, renderer, width;
+
+width = Math.max(document.body.clientWidth, window.innerWidth || 0);
+
+height = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+
+canvases = [document.getElementById('fractal1'), document.getElementById('fractal2')];
+
+for (i = 0, len = canvases.length; i < len; i++) {
+  canvas = canvases[i];
+  canvas.style.visibility = 'hidden';
+  canvas.setAttribute('width', width);
+  canvas.setAttribute('height', height);
+}
+
+context = canvas.getContext('2d');
+
+rScale = d3.scale.linear().range([0, width]).domain([-1.7, 1.7]);
+
+iScale = d3.scale.linear().range([0, height]).domain([-1, 1]);
+
+window.julia = new Julia(canvases, width, height);
+
+renderer = function() {
+  if (julia.done) {
+    return julia.step();
   } else {
-    red = utils.randomInt(0, 255);
-    green = utils.randomInt(0, 255);
-    blue = utils.randomInt(0, 255);
-    roughness = 4;
-    generator = new $plasma();
-    generator.init('plasma', 1080, 720, roughness, 0, red, green, blue);
-    drawer1 = function() {
-      roughness += 2;
-      generator.draw(roughness, red, green);
-      if (roughness >= 50) {
-        red = utils.randomInt(0, 255);
-        green = utils.randomInt(0, 255);
-        blue = utils.randomInt(0, 255);
-        return window.setTimeout(drawer2, 5000);
-      } else {
-        return window.setTimeout(drawer1, 5000);
-      }
-    };
-    drawer2 = function() {
-      roughness -= 2;
-      generator.draw(roughness, red, green);
-      if (roughness <= 4) {
-        red = utils.randomInt(0, 255);
-        green = utils.randomInt(0, 255);
-        blue = utils.randomInt(0, 255);
-        return window.setTimeout(drawer1, 5000);
-      } else {
-        return window.setTimeout(drawer2, 5000);
-      }
-    };
-    julia = new Julia('fractal', 1080, 720);
-    julia.draw();
-    window.setInterval((function() {
-      return julia.draw(new Complex(utils.randomNumber(), utils.randomNumber()));
-    }), 5000);
+    return julia.render();
   }
+};
 
-}).call(this);
+setInterval(renderer, 5);

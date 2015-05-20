@@ -1,5 +1,9 @@
+html,
 body {
+  padding: 0;
   margin: 0;
+}
+body {
   text-align: center;
   background-color: black;
 }
@@ -11,7 +15,9 @@ canvas {
   right: 0;
   margin: 0 auto;
 }
-canvas#fractal {
+canvas#fractal,
+canvas#fractal1,
+canvas#fractal2 {
   z-index: 0;
 }
 canvas#plasma {
