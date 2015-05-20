@@ -55,15 +55,18 @@ Complex = (function() {
 var Julia;
 
 Julia = (function() {
-  function Julia(canvases, width, height) {
+  function Julia(canvases, width, height, c) {
     this.canvases = canvases;
     this.width = width;
     this.height = height;
+    this.c = c;
     this.canvas = this.canvases[0];
     this.context = this.canvas.getContext('2d');
+    if (this.c === void 0) {
+      this.c = new Complex(-0.8, 0.156);
+    }
     this.min = new Complex(-1.7, -1);
     this.max = new Complex(1.7, 1);
-    this.c = new Complex(-0.8, 0.156);
     this.maxIterations = 2000;
     this.minResolution = 40;
     this.resolution = this.minResolution;
@@ -73,7 +76,11 @@ Julia = (function() {
     this.getColor = _.memoize(this.coloringFn);
   }
 
-  Julia.prototype.coloringFn = d3.scale.linear().domain([0, 12, 30, 50, 100, 180, 260, 380, 600, 800, 1200, 1600, 3200]).range(["moccasin", "#999", "steelblue", "yellow", "brown", "#222", "pink", "purple", "#027", "#260", "orange", "yellow", "blue"]).interpolate(d3.interpolateHcl);
+  Julia.prototype.coloringFn = d3.scale.linear().domain([0, 12, 30, 50, 100, 180, 260, 380, 600, 800, 1200, 1600, 3200]).range(randomColor({
+    count: 13,
+    luminosity: 'random',
+    hue: 'random'
+  })).interpolate(d3.interpolateHcl);
 
   Julia.prototype.iterate = function(nextN) {
     var iterations;
@@ -129,6 +136,11 @@ Julia = (function() {
     step = new Complex(0.1, 0.1);
     this.min = this.min.add(step);
     this.max = this.max.subtract(step);
+    if (this.min.real > 0) {
+      this.min = new Complex(-1.7, -1);
+      this.max = new Complex(1.7, 1);
+      this.c = new Complex(utils.randomNumber(), utils.randomNumber());
+    }
     return this.reset();
   };
 

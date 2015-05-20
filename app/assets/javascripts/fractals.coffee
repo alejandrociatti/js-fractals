@@ -41,7 +41,11 @@ for canvas in canvases
 context = canvas.getContext('2d')
 rScale = d3.scale.linear().range([0, width/4]).domain([-1.7,1.7])
 iScale = d3.scale.linear().range([0, height/4]).domain([-1,1])
-window.julia = new Julia(canvases, width/4, height/4)
+
+# small chance of starting with a random C
+c = if Math.random() > 0.9 then new Complex(utils.randomNumber(), utils.randomNumber()) else undefined
+
+window.julia = new Julia(canvases, width/4, height/4, c)
 
 renderer = ->
   if julia.done then julia.step() else julia.render()

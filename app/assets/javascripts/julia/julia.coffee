@@ -1,11 +1,11 @@
 class Julia
 
-  constructor: (@canvases, @width, @height) ->
+  constructor: (@canvases, @width, @height, @c) ->
     @canvas = @canvases[0]
     @context = @canvas.getContext('2d')
+    @c = new Complex(-0.8, 0.156) if @c == undefined
     @min = new Complex(-1.7, -1)
     @max = new Complex(1.7, 1)
-    @c = new Complex(-0.8, 0.156)
     @maxIterations = 2000
     @minResolution = 40
     @resolution = @minResolution
@@ -15,10 +15,9 @@ class Julia
     @getColor = _.memoize(@coloringFn)
 
   coloringFn: d3.scale.linear().domain(
-    [0, 12, 30, 50, 100, 180, 260, 380, 600, 800, 1200, 1600,3200]
+    [0, 12, 30, 50, 100, 180, 260, 380, 600, 800, 1200, 1600, 3200]
   ).range(
-    ["moccasin", "#999", "steelblue", "yellow", "brown", "#222", "pink",
-     "purple", "#027", "#260", "orange", "yellow", "blue"]
+    randomColor({count:13, luminosity:'random', hue:'random'})
   ).interpolate(d3.interpolateHcl)
 
   iterate: (nextN) ->
@@ -59,6 +58,10 @@ class Julia
     step = new Complex(0.1, 0.1)
     @min = @min.add(step)
     @max = @max.subtract(step)
+    if @min.real > 0
+      @min = new Complex(-1.7, -1)
+      @max = new Complex(1.7, 1)
+      @c = new Complex(utils.randomNumber(), utils.randomNumber())
     @reset()
 
   flipCanvas: ->

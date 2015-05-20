@@ -6,8 +6,9 @@ module.exports = (grunt) ->
         options:
           bare: true
         files: {
-          'javascripts/fractals.js': ['app/assets/javascripts/utils.coffee','app/assets/javascripts/fractals.coffee']
+          'javascripts/utils.js': 'app/assets/javascripts/utils.coffee'
           'javascripts/julia.js': ['app/assets/javascripts/julia/complex.coffee','app/assets/javascripts/julia/julia.coffee']
+          'javascripts/fractals.js': 'app/assets/javascripts/fractals.coffee'
         }
     less:
       production:
