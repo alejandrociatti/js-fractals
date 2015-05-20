@@ -55,10 +55,10 @@ class Julia
 
   step: ->
     @done = true
-    step = new Complex(0.1, 0.1)
+    step = new Complex(0.0002*@width, 0.0002*@height)
     @min = @min.add(step)
     @max = @max.subtract(step)
-    if @min.real > 0
+    if @min.real > 1.7
       @min = new Complex(-1.7, -1)
       @max = new Complex(1.7, 1)
       @c = new Complex(utils.randomNumber(), utils.randomNumber())

@@ -133,10 +133,10 @@ Julia = (function() {
   Julia.prototype.step = function() {
     var step;
     this.done = true;
-    step = new Complex(0.1, 0.1);
+    step = new Complex(0.0002 * this.width, 0.0002 * this.height);
     this.min = this.min.add(step);
     this.max = this.max.subtract(step);
-    if (this.min.real > 0) {
+    if (this.min.real > 1.7) {
       this.min = new Complex(-1.7, -1);
       this.max = new Complex(1.7, 1);
       this.c = new Complex(utils.randomNumber(), utils.randomNumber());
